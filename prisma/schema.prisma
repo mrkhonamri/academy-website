@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  type        String   @default("announcement")
+  priority    String   @default("normal")
+  expiresAt   DateTime?
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryItem {
+  id          Int      @id @default(autoincrement())
+  type        String   @default("image") // image or video
+  title       String
+  description String?
+  url         String
+  thumbnailUrl String?
+  category    String   @default("general") // general, class, performance, event, behind-scenes
+  isFeatured  Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Message {
+  id          Int      @id @default(autoincrement())
+  senderName  String
+  senderEmail String
+  senderPhone String?
+  subject     String
+  message     String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model BlogPost {
+  id           Int      @id @default(autoincrement())
+  title        String
+  slug         String   @unique
+  excerpt      String
+  content      String
+  category     String   @default("general")
+  imageUrl     String?
+  isPublished  Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Poll {
+  id        Int          @id @default(autoincrement())
+  question  String
+  isActive  Boolean      @default(true)
+  createdAt DateTime     @default(now())
+  options   PollOption[]
+}
+
+model PollOption {
+  id         Int    @id @default(autoincrement())
+  pollId     Int
+  optionText String
+  votes      Int    @default(0)
+  poll       Poll   @relation(fields: [pollId], references: [id], onDelete: Cascade)
+}
+
+model Slide {
+  id             Int      @id @default(autoincrement())
+  title          String
+  subtitle       String?
+  backgroundType String   @default("image")
+  backgroundUrl  String
+  button1Text    String?
+  button1Link    String?
+  button2Text    String?
+  button2Link    String?
+  isActive       Boolean  @default(true)
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model SiteSetting {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String
+}
+
+model Teacher {
+  id             Int      @id @default(autoincrement())
+  name           String
+  specialization String
+  bio            String
+  experience     String
+  students       Int      @default(0)
+  imageUrl       String?
+  isActive       Boolean  @default(true)
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
