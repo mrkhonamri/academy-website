@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Trash2, Image, Video } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 const categories = [
   { value: "class", label: "کلاس‌ها" },
@@ -116,7 +117,7 @@ export default function AdminGalleryPage() {
                 className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
               >
                 {categories.map((c) => (
-                  <option key={c.value} value={c.value}>{c.label}</option>
+                  <option key={c.value} value={c.label}>{c.value}</option>
                 ))}
               </select>
             </div>
@@ -141,17 +142,12 @@ export default function AdminGalleryPage() {
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="mb-1 block text-sm font-medium text-slate-700">آدرس فایل *</label>
-              <input
-                type="text"
-                value={form.url}
-                onChange={(e) => setForm({ ...form, url: e.target.value })}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
-                placeholder="/uploads/gallery/image.jpg یا آدرس اینترنتی"
+              <label className="mb-1 block text-sm font-medium text-slate-700">تصویر *</label>
+              <ImageUpload
+                currentUrl={form.url || undefined}
+                onUpload={(url) => setForm({ ...form, url })}
+                onClear={() => setForm({ ...form, url: "" })}
               />
-              <p className="mt-1 text-xs text-slate-400">
-                فایل‌ها را در پوشه public/uploads/gallery قرار دهید
-              </p>
             </div>
           </div>
           <div className="mt-6 flex gap-3">

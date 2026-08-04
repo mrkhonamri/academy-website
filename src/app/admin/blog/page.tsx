@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, BookOpen } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 const categories = [
   { value: "general", label: "عمومی" },
@@ -25,6 +26,7 @@ export default function AdminBlogPage() {
     excerpt: "",
     content: "",
     category: "general",
+    imageUrl: "",
     isPublished: false,
   });
 
@@ -41,7 +43,7 @@ export default function AdminBlogPage() {
   }
 
   function resetForm() {
-    setForm({ title: "", slug: "", excerpt: "", content: "", category: "general", isPublished: false });
+    setForm({ title: "", slug: "", excerpt: "", content: "", category: "general", imageUrl: "", isPublished: false });
     setEditingId(null);
     setShowForm(false);
   }
@@ -53,6 +55,7 @@ export default function AdminBlogPage() {
       excerpt: post.excerpt,
       content: post.content,
       category: post.category,
+      imageUrl: post.imageUrl || "",
       isPublished: post.isPublished,
     });
     setEditingId(post.id);
@@ -138,6 +141,14 @@ export default function AdminBlogPage() {
             <div>
               <label className="mb-1 block text-sm font-medium">محتوا *</label>
               <textarea rows={8} value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium">تصویر مقاله</label>
+              <ImageUpload
+                currentUrl={form.imageUrl || undefined}
+                onUpload={(url) => setForm({ ...form, imageUrl: url })}
+                onClear={() => setForm({ ...form, imageUrl: "" })}
+              />
             </div>
             <div className="flex gap-4">
               <div>

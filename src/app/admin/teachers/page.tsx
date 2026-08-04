@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 export default function AdminTeachersPage() {
   const router = useRouter();
@@ -89,7 +90,14 @@ export default function AdminTeachersPage() {
             <div className="sm:col-span-2"><label className="mb-1 block text-sm font-medium">بیوگرافی *</label><textarea rows={3} value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
             <div><label className="mb-1 block text-sm font-medium">سابقه</label><input type="text" value={form.experience} onChange={(e) => setForm({ ...form, experience: e.target.value })} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
             <div><label className="mb-1 block text-sm font-medium">تعداد دانشجو</label><input type="number" value={form.students} onChange={(e) => setForm({ ...form, students: parseInt(e.target.value) || 0 })} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
-            <div className="sm:col-span-2"><label className="mb-1 block text-sm font-medium">آدرس تصویر</label><input type="text" value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} className="w-full rounded-lg border px-3 py-2 text-sm" placeholder="/images/teacher.jpg" /></div>
+            <div className="sm:col-span-2">
+              <label className="mb-1 block text-sm font-medium">تصویر استاد</label>
+              <ImageUpload
+                currentUrl={form.imageUrl || undefined}
+                onUpload={(url) => setForm({ ...form, imageUrl: url })}
+                onClear={() => setForm({ ...form, imageUrl: "" })}
+              />
+            </div>
           </div>
           <div className="mt-6 flex gap-3"><button type="submit" className="rounded-lg bg-blue-700 px-6 py-2 text-sm font-medium text-white">ذخیره</button><button type="button" onClick={resetForm} className="rounded-lg border px-6 py-2 text-sm">انصراف</button></div>
         </form>

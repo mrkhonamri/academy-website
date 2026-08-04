@@ -4,8 +4,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "آکادمی زبان | آموزش انگلیسی",
-  description: "آکادمی زبان - آموزش حرفه‌ای انگلیسی با اساتید مجرب",
+  title: "آکادمی زبان مازندآریا | آموزش انگلیسی",
+  description: "آکادمی زبان مازندآریا - آموزش حرفه‌ای انگلیسی با اساتید مجرب",
 };
 
 export default function RootLayout({

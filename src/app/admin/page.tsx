@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Image, Megaphone, BookOpen, BarChart3, Settings, MessageSquare, Users, Sliders, Star } from "lucide-react";
+import { Image, Megaphone, BookOpen, BarChart3, Settings, MessageSquare, Users, Sliders, Star, Mail } from "lucide-react";
 
 const sections = [
   { title: "اسلایدر", href: "/admin/sliders", icon: <Sliders className="h-8 w-8" />, color: "from-pink-500 to-rose-500", desc: "مدیریت اسلایدهای صفحه اصلی" },
@@ -11,6 +11,7 @@ const sections = [
   { title: "پیام‌ها", href: "/admin/messages", icon: <MessageSquare className="h-8 w-8" />, color: "from-blue-500 to-indigo-500", desc: "پیام‌های دریافتی" },
   { title: "تنظیمات", href: "/admin/settings", icon: <Settings className="h-8 w-8" />, color: "from-slate-500 to-slate-700", desc: "تنظیمات فوتر و سایت" },
   { title: "نظرات", href: "/admin/testimonials", icon: <Star className="h-8 w-8" />, color: "from-amber-500 to-yellow-500", desc: "مدیریت نظرات دانشجویان" },
+  { title: "خبرنامه", href: "/admin/newsletter", icon: <Mail className="h-8 w-8" />, color: "from-green-500 to-emerald-600", desc: "مشترکین خبرنامه" },
 ];
 
 export default function AdminDashboard() {
