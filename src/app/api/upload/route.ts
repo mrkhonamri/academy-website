@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     await client.uploadFrom(Readable.from(buffer), uniqueName);
     client.close();
 
-    const url = `https://mazandaria.ir/uploads/${uniqueName}`;
+    const url = `https://files.mazandaria.ir/uploads/${uniqueName}`;
 
     return NextResponse.json({ url }, { status: 201 });
   } catch (error) {
