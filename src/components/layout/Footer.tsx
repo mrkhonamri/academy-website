@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import NewsletterForm from "./NewsletterForm";
 
 const quickLinks = [
   { label: "برنامه‌های آموزشی", href: "/programs" },
@@ -21,11 +22,11 @@ export default async function Footer() {
   const s = await getSettings();
 
   const socialLinks = [
-    { label: "اینستاگرام", href: s.footer_instagram || "#" },
-    { label: "تلگرام", href: s.footer_telegram || "#" },
-    { label: "واتساپ", href: s.footer_whatsapp || "#" },
-    { label: "آپارات", href: s.footer_aparat || "#" },
-  ].filter((l) => l.href !== "#" || s[l.href as keyof typeof s]);
+    { label: "اینستاگرام", href: s.footer_instagram || "" },
+    { label: "تلگرام", href: s.footer_telegram || "" },
+    { label: "واتساپ", href: s.footer_whatsapp || "" },
+    { label: "آپارات", href: s.footer_aparat || "" },
+  ].filter((l) => l.href);
 
   return (
     <footer className="bg-slate-900 text-slate-300">
@@ -85,10 +86,7 @@ export default async function Footer() {
 
           <div>
             <h3 className="mb-4 text-sm font-bold text-white">عضویت در خبرنامه</h3>
-            <form className="flex gap-2">
-              <input type="email" placeholder="ایمیل خود را وارد کنید" className="w-full rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none" />
-              <button type="submit" className="rounded-lg bg-amber-400 px-4 py-2 text-sm font-bold text-slate-900 hover:bg-amber-300 transition-colors shrink-0">عضویت</button>
-            </form>
+            <NewsletterForm />
 
             {socialLinks.length > 0 && (
               <>
