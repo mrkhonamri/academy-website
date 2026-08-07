@@ -53,7 +53,7 @@ export default function ImageUpload({ currentUrl, onUpload, onClear }: Props) {
     <div>
       {currentUrl ? (
         <div className="relative inline-block">
-          <img src={currentUrl} alt="پیش‌نمایش" className="h-32 w-32 rounded-lg object-cover border" />
+          <img src={`/api/image-proxy?url=${encodeURIComponent(currentUrl)}`} alt="پیش‌نمایش" className="h-32 w-32 rounded-lg object-cover border" />
           <button
             type="button"
             onClick={onClear}
