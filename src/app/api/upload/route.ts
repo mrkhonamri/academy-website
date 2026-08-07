@@ -13,8 +13,7 @@ export async function POST(request: NextRequest) {
 
     // Generate unique filename
     const ext = file.name.split(".").pop() || "jpg";
-    const uniqueName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${ext}`;
-
+    const uniqueName = `${Date.now()}.${ext}`;
     // Convert file to buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
