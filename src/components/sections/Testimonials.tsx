@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 
 export default async function Testimonials() {
   const testimonials = await prisma.testimonial.findMany({
-    where: { isActive: true },
+    where: { isActive: true, isApproved: true },
     orderBy: { sortOrder: "asc" },
     take: 6,
   });
