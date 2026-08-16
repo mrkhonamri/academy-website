@@ -42,6 +42,12 @@ export default function NewsClient({
     isPublished: false,
   });
 
+  async function fetchNews() {
+    const res = await fetch("/api/news");
+    const data = await res.json();
+    if (Array.isArray(data)) setNews(data);
+  }
+
   function resetForm() {
     setForm({
       title: "",
@@ -96,6 +102,7 @@ export default function NewsClient({
     }
 
     resetForm();
+    await fetchNews();
     router.refresh();
   }
 
@@ -103,6 +110,7 @@ export default function NewsClient({
     if (!confirm("آیا از حذف این خبر اطمینان دارید؟")) return;
 
     await fetch(`/api/news/${id}`, { method: "DELETE" });
+    await fetchNews();
     router.refresh();
   }
 
