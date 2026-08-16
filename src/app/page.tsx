@@ -5,6 +5,7 @@ import HeroSlider from "@/components/sections/HeroSlider";
 import StatsCounter from "@/components/sections/StatsCounter";
 import Testimonials from "@/components/sections/Testimonials";
 import BlogPreview from "@/components/sections/BlogPreview";
+import TestimonialForm from "@/components/sections/TestimonialForm";
 
 export default function HomePage() {
   return (
@@ -84,8 +85,11 @@ export default function HomePage() {
 
       <StatsCounter />
 
-      {/* Testimonials */}
-      <Testimonials />
+{/* Testimonials */}
+<Testimonials />
+
+{/* Testimonial Form */}
+<TestimonialForm />
 
       {/* Gallery + Blog + CTA (keep existing) */}
       <section className="py-20 bg-slate-50">
