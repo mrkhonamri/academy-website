@@ -1,7 +1,45 @@
+"use client";
+
 import Link from "next/link";
-import { Phone, Mail, User } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
+import { useState, useEffect } from "react";
+
+interface Settings {
+  footer_address?: string;
+  footer_phone?: string;
+  footer_email?: string;
+}
 
 export default function RegisterPage() {
+  const [settings, setSettings] = useState<Settings>({});
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => setSettings(data));
+  }, []);
+
+  const methods = [
+    {
+      icon: <Phone className="h-8 w-8" />,
+      title: "تماس بگیرید",
+      desc: settings.footer_phone || "اطلاعات ثبت نشده",
+      color: "from-blue-500 to-cyan-500",
+    },
+    {
+      icon: <Mail className="h-8 w-8" />,
+      title: "ایمیل بزنید",
+      desc: settings.footer_email || "اطلاعات ثبت نشده",
+      color: "from-amber-500 to-orange-500",
+    },
+    {
+      icon: <MapPin className="h-8 w-8" />,
+      title: "حضوری مراجعه کنید",
+      desc: settings.footer_address || "اطلاعات ثبت نشده",
+      color: "from-emerald-500 to-teal-500",
+    },
+  ];
+
   return (
     <div className="bg-slate-50">
       <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 py-16 text-center">
@@ -14,11 +52,7 @@ export default function RegisterPage() {
 
       <section className="mx-auto max-w-3xl px-6 py-16">
         <div className="grid gap-6 sm:grid-cols-3">
-          {[
-            { icon: <Phone className="h-8 w-8" />, title: "تماس بگیرید", desc: "۰۲۱-۱۲۳۴۵۶۷۸", color: "from-blue-500 to-cyan-500" },
-            { icon: <Mail className="h-8 w-8" />, title: "ایمیل بزنید", desc: "info@academy.ir", color: "from-amber-500 to-orange-500" },
-            { icon: <User className="h-8 w-8" />, title: "حضوری مراجعه کنید", desc: "تهران، خیابان ولیعصر", color: "from-emerald-500 to-teal-500" },
-          ].map(item => (
+          {methods.map(item => (
             <div key={item.title} className="rounded-2xl bg-white border border-slate-200 p-8 text-center hover:shadow-lg transition-all">
               <div className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${item.color} text-white`}>{item.icon}</div>
               <h3 className="font-bold text-slate-900">{item.title}</h3>
