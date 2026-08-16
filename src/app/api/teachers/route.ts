@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function GET() {
   const teachers = await prisma.teacher.findMany({
@@ -12,5 +13,6 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const teacher = await prisma.teacher.create({ data: body });
+  revalidatePath("/teachers");
   return NextResponse.json(teacher, { status: 201 });
 }
