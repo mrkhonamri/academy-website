@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 // PUT - Update news
 export async function PUT(
@@ -23,6 +24,7 @@ export async function PUT(
       },
     });
 
+    revalidatePath("/");
     return NextResponse.json(news);
   } catch {
     return NextResponse.json(
@@ -43,6 +45,7 @@ export async function DELETE(
       where: { id: parseInt(id) },
     });
 
+    revalidatePath("/");
     return NextResponse.json({ message: "خبر با موفقیت حذف شد" });
   } catch {
     return NextResponse.json(

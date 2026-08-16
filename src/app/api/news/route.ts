@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 // GET - List all news
 export async function GET() {
@@ -40,6 +41,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    revalidatePath("/");
     return NextResponse.json(news, { status: 201 });
   } catch {
     return NextResponse.json(
