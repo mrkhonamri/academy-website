@@ -110,14 +110,15 @@ model Teacher {
 }
 
 model Testimonial {
-  id        Int      @id @default(autoincrement())
-  name      String
-  role      String
-  text      String
-  stars     Int      @default(5)
-  isActive  Boolean  @default(true)
-  sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  name       String
+  role       String
+  text       String
+  stars      Int      @default(5)
+  isActive   Boolean  @default(true)
+  isApproved Boolean  @default(false)
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
 }
 
 model NewsletterSubscriber {
