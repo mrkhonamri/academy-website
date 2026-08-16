@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Image } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 export default function AdminSlidersPage() {
   const router = useRouter();
@@ -57,14 +58,15 @@ export default function AdminSlidersPage() {
       await fetch("/api/slides", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
     }
     resetForm();
+    await fetchSlides();
     router.refresh();
-    fetchSlides();
   }
 
   async function deleteSlide(id: number) {
     if (!confirm("حذف شود؟")) return;
     await fetch(`/api/slides/${id}`, { method: "DELETE" });
-    fetchSlides();
+    await fetchSlides();
+    router.refresh();
   }
 
   return (
@@ -81,7 +83,14 @@ export default function AdminSlidersPage() {
             <div className="sm:col-span-2"><label className="mb-1 block text-sm font-medium">عنوان *</label><input type="text" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
             <div className="sm:col-span-2"><label className="mb-1 block text-sm font-medium">زیرعنوان</label><input type="text" value={form.subtitle} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
             <div><label className="mb-1 block text-sm font-medium">نوع پس‌زمینه</label><select value={form.backgroundType} onChange={(e) => setForm({ ...form, backgroundType: e.target.value })} className="w-full rounded-lg border px-3 py-2 text-sm"><option value="image">تصویر</option><option value="video">ویدیو</option></select></div>
-            <div><label className="mb-1 block text-sm font-medium">آدرس پس‌زمینه *</label><input type="text" value={form.backgroundUrl} onChange={(e) => setForm({ ...form, backgroundUrl: e.target.value })} className="w-full rounded-lg border px-3 py-2 text-sm" placeholder="/uploads/slider/bg.jpg" /></div>
+            <div className="sm:col-span-2">
+              <label className="mb-1 block text-sm font-medium">پس‌زمینه *</label>
+              <ImageUpload
+                currentUrl={form.backgroundUrl || undefined}
+                onUpload={(url) => setForm({ ...form, backgroundUrl: url })}
+                onClear={() => setForm({ ...form, backgroundUrl: "" })}
+              />
+            </div>
             <div><label className="mb-1 block text-sm font-medium">متن دکمه ۱</label><input type="text" value={form.button1Text} onChange={(e) => setForm({ ...form, button1Text: e.target.value })} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
             <div><label className="mb-1 block text-sm font-medium">لینک دکمه ۱</label><input type="text" value={form.button1Link} onChange={(e) => setForm({ ...form, button1Link: e.target.value })} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
             <div><label className="mb-1 block text-sm font-medium">متن دکمه ۲</label><input type="text" value={form.button2Text} onChange={(e) => setForm({ ...form, button2Text: e.target.value })} className="w-full rounded-lg border px-3 py-2 text-sm" /></div>
