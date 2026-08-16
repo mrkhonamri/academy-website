@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function GET(request: NextRequest) {
   try {
@@ -32,6 +33,8 @@ export async function POST(request: NextRequest) {
         sortOrder: body.sortOrder || 0,
       },
     });
+    revalidatePath("/gallery");
+    revalidatePath("/");
     return NextResponse.json(item, { status: 201 });
   } catch {
     return NextResponse.json({ error: "خطا در ایجاد آیتم" }, { status: 500 });

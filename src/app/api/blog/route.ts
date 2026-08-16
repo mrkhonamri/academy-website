@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function GET() {
   try {
@@ -34,6 +35,8 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    revalidatePath("/blog");
+    revalidatePath("/");
     return NextResponse.json(post, { status: 201 });
   } catch {
     return NextResponse.json({ error: "خطا در ایجاد مقاله" }, { status: 500 });
