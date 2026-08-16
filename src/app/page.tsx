@@ -5,6 +5,7 @@ import HeroSlider from "@/components/sections/HeroSlider";
 import StatsCounter from "@/components/sections/StatsCounter";
 import Testimonials from "@/components/sections/Testimonials";
 import BlogPreview from "@/components/sections/BlogPreview";
+import GalleryPreview from "@/components/sections/GalleryPreview";
 import TestimonialForm from "@/components/sections/TestimonialForm";
 
 export default function HomePage() {
@@ -86,42 +87,10 @@ export default function HomePage() {
       <StatsCounter />
 
       {/* Gallery */}
-      <section className="py-20 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 text-center">
-          <span className="text-sm font-medium text-blue-600">گالری</span>
-          <h2 className="mt-2 text-3xl font-black">لحظات ماندگار</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
-            {[1,2,3,4].map(i => (
-              <Link key={i} href="/gallery" className="group aspect-square rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center hover:scale-105 transition-all">
-                <span className="text-4xl opacity-0 group-hover:opacity-100">🔍</span>
-              </Link>
-            ))}
-          </div>
-          <Link href="/gallery" className="inline-flex items-center gap-2 mt-6 text-blue-600 font-medium">مشاهده گالری <ArrowLeft className="h-4 w-4" /></Link>
-        </div>
-      </section>
+      <GalleryPreview />
 
       {/* Blog */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-6 text-center">
-          <span className="text-sm font-medium text-blue-600">وبلاگ</span>
-          <h2 className="mt-2 text-3xl font-black">آخرین مقالات</h2>
-          <div className="grid gap-6 sm:grid-cols-3 mt-8">
-            {[
-              { title: "۱۰ روش سریع یادگیری لغات", date: "۱۴۰۵/۰۵/۰۱", cat: "یادگیری" },
-              { title: "چگونه تلفظ خود را تقویت کنیم؟", date: "۱۴۰۵/۰۴/۲۰", cat: "تلفظ" },
-              { title: "منابع آیلتس ۲۰۲۶", date: "۱۴۰۵/۰۴/۱۰", cat: "آزمون" },
-            ].map(post => (
-              <Link key={post.title} href="/blog" className="rounded-2xl border p-6 text-right hover:shadow-lg hover:border-blue-300 transition-all">
-                <span className="text-xs text-blue-600 bg-blue-50 rounded-full px-3 py-1">{post.cat}</span>
-                <h3 className="mt-3 font-bold hover:text-blue-700">{post.title}</h3>
-                <p className="mt-2 text-xs text-slate-400">{post.date}</p>
-              </Link>
-            ))}
-          </div>
-          <Link href="/blog" className="inline-flex items-center gap-2 mt-6 text-blue-600 font-medium">مشاهده همه <ArrowLeft className="h-4 w-4" /></Link>
-        </div>
-      </section>
+      <BlogPreview />
 
       {/* Testimonials */}
       <Testimonials />
