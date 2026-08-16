@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function GET() {
   const settings = await prisma.siteSetting.findMany();
@@ -17,5 +18,7 @@ export async function PUT(request: NextRequest) {
       create: { key, value: value as string },
     });
   }
+  revalidatePath("/");
+  revalidatePath("/contact");
   return NextResponse.json({ success: true });
 }
