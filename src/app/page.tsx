@@ -85,13 +85,7 @@ export default function HomePage() {
 
       <StatsCounter />
 
-{/* Testimonials */}
-<Testimonials />
-
-{/* Testimonial Form */}
-<TestimonialForm />
-
-      {/* Gallery + Blog + CTA (keep existing) */}
+      {/* Gallery */}
       <section className="py-20 bg-slate-50">
         <div className="mx-auto max-w-7xl px-6 text-center">
           <span className="text-sm font-medium text-blue-600">گالری</span>
@@ -107,6 +101,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Blog */}
       <section className="py-20 bg-white">
         <div className="mx-auto max-w-7xl px-6 text-center">
           <span className="text-sm font-medium text-blue-600">وبلاگ</span>
@@ -128,6 +123,13 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <Testimonials />
+
+      {/* Testimonial Form */}
+      <TestimonialForm />
+
+      {/* Final CTA */}
       <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 text-center">
         <div className="mx-auto max-w-3xl px-6">
           <h2 className="text-3xl font-black text-white sm:text-4xl">آماده شروع هستید؟</h2>
