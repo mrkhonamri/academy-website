@@ -1,9 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   const { password } = await request.json();
 
-  if (password === process.env.ADMIN_PASSWORD) {
+  // Check DB first
+  let storedPassword: string | null = null;
+  try {
+    const setting = await prisma.siteSetting.findUnique({
+      where: { key: "admin_password" },
+    });
+    storedPassword = setting?.value || null;
+  } catch {
+    storedPassword = null;
+  }
+
+  const validPassword = storedPassword || process.env.ADMIN_PASSWORD;
+
+  if (password === validPassword) {
     const response = NextResponse.json({ success: true });
     response.cookies.set("admin_session", "true", {
       httpOnly: true,
