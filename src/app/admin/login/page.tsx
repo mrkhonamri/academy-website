@@ -22,8 +22,7 @@ export default function AdminLoginPage() {
     });
 
     if (res.ok) {
-      router.push("/admin");
-      router.refresh();
+      window.location.href = "/admin";
     } else {
       setError("رمز عبور اشتباه است");
     }
