@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown, CheckCircle, Users } from "lucide-react";
 
 const ageGroups = [
@@ -55,7 +55,21 @@ const ageGroups = [
 ];
 
 export default function ProgramsPage() {
-  const [openGroup, setOpenGroup] = useState<number | null>(1);
+  const [openGroup, setOpenGroup] = useState<number | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const groupParam = params.get("group");
+    if (groupParam) {
+      const groupId = parseInt(groupParam);
+      if (!isNaN(groupId)) {
+        setOpenGroup(groupId);
+        setTimeout(() => {
+          document.getElementById(`group-${groupId}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+    }
+  }, []);
 
   return (
     <div className="bg-slate-50">
@@ -72,7 +86,7 @@ export default function ProgramsPage() {
           {ageGroups.map((group) => {
             const isOpen = openGroup === group.id;
             return (
-              <div key={group.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div key={group.id} id={`group-${group.id}`} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <button onClick={() => setOpenGroup(isOpen ? null : group.id)} className="flex w-full items-center justify-between p-6 text-right hover:bg-slate-50 transition-colors">
                   <div className="flex items-center gap-4">
                     <span className="text-3xl">{group.icon}</span>
