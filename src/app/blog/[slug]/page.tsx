@@ -45,9 +45,11 @@ export default async function BlogPostPage({
 
       <section className="mx-auto max-w-3xl px-6 py-12">
         <div className="rounded-2xl bg-white p-8 shadow-sm border border-slate-200">
-          <div className="prose prose-slate max-w-none leading-relaxed whitespace-pre-wrap text-slate-700">
-            {post.content}
-          </div>
+          <div
+            className="prose prose-slate max-w-none text-slate-700"
+            dir="rtl"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
 
           <div className="mt-8 border-t border-slate-200 pt-6">
             <Link

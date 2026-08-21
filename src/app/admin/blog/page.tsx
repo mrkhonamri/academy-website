@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, BookOpen } from "lucide-react";
 import { useRouter } from "next/navigation";
 import ImageUpload from "@/components/admin/ImageUpload";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 const categories = [
   { value: "general", label: "عمومی" },
@@ -92,15 +93,15 @@ export default function AdminBlogPage() {
     }
 
     resetForm();
+    await fetchPosts();
     router.refresh();
-    fetchPosts();
   }
 
   async function deletePost(id: number) {
     if (!confirm("آیا از حذف این مقاله اطمینان دارید؟")) return;
     await fetch(`/api/blog/${id}`, { method: "DELETE" });
+    await fetchPosts();
     router.refresh();
-    fetchPosts();
   }
 
   return (
@@ -140,7 +141,10 @@ export default function AdminBlogPage() {
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium">محتوا *</label>
-              <textarea rows={8} value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+              <RichTextEditor
+                value={form.content}
+                onChange={(content) => setForm({ ...form, content })}
+              />
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium">تصویر مقاله</label>
