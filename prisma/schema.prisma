@@ -126,3 +126,23 @@ model NewsletterSubscriber {
   email     String   @unique
   createdAt DateTime @default(now())
 }
+
+model AgeGroup {
+  id        Int     @id @default(autoincrement())
+  title     String
+  minAge    Int
+  maxAge    Int
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+  levels    Level[]
+}
+
+model Level {
+  id         Int      @id @default(autoincrement())
+  ageGroupId Int
+  title      String
+  code       String
+  sortOrder  Int      @default(0)
+  isActive   Boolean  @default(true)
+  ageGroup   AgeGroup @relation(fields: [ageGroupId], references: [id], onDelete: Cascade)
+}
