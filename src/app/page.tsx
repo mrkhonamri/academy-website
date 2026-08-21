@@ -28,13 +28,13 @@ export default function HomePage() {
           </div>
           <div className="grid gap-6 sm:grid-cols-3">
           {[
-             { image: "/images/kids.png", title: "کودکان", age: "4 تا 6 سال و 7 تا 9 سال", desc: "یادگیری با بازی، شعر و داستان‌های جذاب", color: "from-pink-500 to-rose-500" },
-             { image: "/images/teens.png", title: "نوجوانان", age: "10 تا 12 سال", desc: "یادگیری ساختاریافته با تمرکز بر مکالمه", color: "from-blue-500 to-cyan-500" },
-             { image: "/images/adults.png", title: "بزرگسالان", age: "18 سال به بالا", desc: "آموزش حرفه‌ای با متدهای بین‌المللی", color: "from-violet-500 to-purple-500" },
+             { image: "/images/kids.png", title: "کودکان", age: "4 تا 6 سال و 7 تا 9 سال", desc: "یادگیری با بازی، شعر و داستان‌های جذاب", color: "from-pink-500 to-rose-500", groupId: 1 },
+             { image: "/images/teens.png", title: "نوجوانان", age: "10 تا 12 سال", desc: "یادگیری ساختاریافته با تمرکز بر مکالمه", color: "from-blue-500 to-cyan-500", groupId: 3 },
+             { image: "/images/adults.png", title: "بزرگسالان", age: "18 سال به بالا", desc: "آموزش حرفه‌ای با متدهای بین‌المللی", color: "from-violet-500 to-purple-500", groupId: 5 },
            ].map((item) => (
               <Link
                 key={item.title}
-                href="/programs"
+                href={`/programs?group=${item.groupId}`}
                 className="group rounded-2xl border border-slate-200 p-8 text-center hover:shadow-xl hover:border-blue-300 transition-all hover:-translate-y-1"
               >
                 <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center">
