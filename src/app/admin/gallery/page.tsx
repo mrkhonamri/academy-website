@@ -188,11 +188,15 @@ export default function AdminGalleryPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {items.map((item) => (
             <div key={item.id} className="group relative rounded-xl border border-slate-200 bg-white overflow-hidden">
-              <div className="aspect-square bg-slate-100 flex items-center justify-center">
+              <div className="aspect-square bg-slate-100 flex items-center justify-center overflow-hidden">
                 {item.type === "video" ? (
                   <Video className="h-10 w-10 text-slate-400" />
                 ) : (
-                  <Image className="h-10 w-10 text-slate-400" />
+                  <img
+                    src={`/api/image-proxy?url=${encodeURIComponent(item.url)}`}
+                    alt={item.title}
+                    className="h-full w-full object-cover"
+                  />
                 )}
               </div>
               <div className="p-3">
