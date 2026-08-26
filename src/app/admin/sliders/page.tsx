@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, Image } from "lucide-react";
+import { Plus, Pencil, Trash2, Image, ArrowUp, ArrowDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import ImageUpload from "@/components/admin/ImageUpload";
 
@@ -28,7 +28,11 @@ export default function AdminSlidersPage() {
   async function fetchSlides() {
     const res = await fetch("/api/slides");
     const data = await res.json();
-    setSlides(Array.isArray(data) ? data : []);
+    if (Array.isArray(data)) {
+      // Sort by sortOrder ascending
+      const sorted = [...data].sort((a, b) => a.sortOrder - b.sortOrder);
+      setSlides(sorted);
+    }
   }
 
   function resetForm() {
@@ -69,6 +73,33 @@ export default function AdminSlidersPage() {
     router.refresh();
   }
 
+  async function moveSlide(index: number, direction: "up" | "down") {
+    const newIndex = direction === "up" ? index - 1 : index + 1;
+    if (newIndex < 0 || newIndex >= slides.length) return;
+
+    const current = slides[index];
+    const neighbor = slides[newIndex];
+
+    // Swap sortOrder values
+    const currentOrder = current.sortOrder;
+    const neighborOrder = neighbor.sortOrder;
+
+    await fetch(`/api/slides/${current.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...current, sortOrder: neighborOrder }),
+    });
+
+    await fetch(`/api/slides/${neighbor.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...neighbor, sortOrder: currentOrder }),
+    });
+
+    await fetchSlides();
+    router.refresh();
+  }
+
   return (
     <div className="mx-auto max-w-4xl p-6" dir="rtl">
       <div className="mb-8 flex items-center justify-between">
@@ -101,10 +132,34 @@ export default function AdminSlidersPage() {
       )}
 
       <div className="space-y-3">
-        {slides.map((s) => (
+        {slides.map((s, index) => (
           <div key={s.id} className="flex items-center justify-between rounded-xl border bg-white p-4">
-            <div><h3 className="font-bold">{s.title}</h3><p className="text-sm text-slate-500">{s.subtitle}</p></div>
-            <div className="flex gap-2"><button onClick={() => editSlide(s)} className="rounded-lg p-2 hover:bg-slate-100"><Pencil className="h-4 w-4" /></button><button onClick={() => deleteSlide(s.id)} className="rounded-lg p-2 hover:bg-red-50 hover:text-red-600"><Trash2 className="h-4 w-4" /></button></div>
+            <div className="flex items-center gap-3">
+              <div className="flex flex-col gap-1">
+                <button
+                  onClick={() => moveSlide(index, "up")}
+                  disabled={index === 0}
+                  className="rounded p-1 hover:bg-slate-100 disabled:opacity-30"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => moveSlide(index, "down")}
+                  disabled={index === slides.length - 1}
+                  className="rounded p-1 hover:bg-slate-100 disabled:opacity-30"
+                >
+                  <ArrowDown className="h-4 w-4" />
+                </button>
+              </div>
+              <div>
+                <h3 className="font-bold">{s.title}</h3>
+                <p className="text-sm text-slate-500">{s.subtitle}</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => editSlide(s)} className="rounded-lg p-2 hover:bg-slate-100"><Pencil className="h-4 w-4" /></button>
+              <button onClick={() => deleteSlide(s.id)} className="rounded-lg p-2 hover:bg-red-50 hover:text-red-600"><Trash2 className="h-4 w-4" /></button>
+            </div>
           </div>
         ))}
       </div>
