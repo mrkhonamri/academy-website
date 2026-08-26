@@ -7,6 +7,7 @@ import ImageUpload from "@/components/admin/ImageUpload";
 import RichTextEditor from "@/components/admin/RichTextEditor";
 
 const categories = [
+  { value: "featured", label: "ویژه" },
   { value: "general", label: "عمومی" },
   { value: "learning", label: "یادگیری" },
   { value: "tips", label: "نکات آموزشی" },
