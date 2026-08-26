@@ -45,6 +45,14 @@ export default async function BlogPostPage({
 
       <section className="mx-auto max-w-3xl px-6 py-12">
         <div className="rounded-2xl bg-white p-8 shadow-sm border border-slate-200">
+          {post.imageUrl && (
+            <img
+              src={`/api/image-proxy?url=${encodeURIComponent(post.imageUrl)}`}
+              alt={post.title}
+              className="mb-8 w-full max-h-[400px] rounded-xl object-cover border border-slate-200"
+            />
+          )}
+
           <div
             className="prose prose-slate max-w-none text-slate-700"
             dir="rtl"
