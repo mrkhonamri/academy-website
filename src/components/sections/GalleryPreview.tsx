@@ -1,12 +1,24 @@
 import Link from "next/link";
-import { ArrowLeft, Image, Video } from "lucide-react";
+import { ArrowLeft, Video } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 
 export default async function GalleryPreview() {
-  const items = await prisma.galleryItem.findMany({
+  const featured = await prisma.galleryItem.findMany({
+    where: { isFeatured: true },
     orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     take: 4,
   });
+
+  let items = featured;
+
+  if (items.length < 4) {
+    const regular = await prisma.galleryItem.findMany({
+      where: { isFeatured: false },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+      take: 4 - items.length,
+    });
+    items = [...items, ...regular];
+  }
 
   if (items.length === 0) return null;
 
