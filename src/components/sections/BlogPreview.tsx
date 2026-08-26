@@ -4,16 +4,28 @@ import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/utils/persian-date";
 
 const categoryLabels: Record<string, string> = {
+  featured: "ویژه",
   general: "عمومی", learning: "یادگیری", tips: "نکات آموزشی",
   exams: "آزمون‌ها", pronunciation: "تلفظ", grammar: "گرامر",
 };
 
 export default async function BlogPreview() {
-  const posts = await prisma.blogPost.findMany({
-    where: { isPublished: true },
+  const featured = await prisma.blogPost.findMany({
+    where: { isPublished: true, category: "featured" },
     orderBy: { createdAt: "desc" },
     take: 3,
   });
+
+  let posts = featured;
+
+  if (posts.length < 3) {
+    const regular = await prisma.blogPost.findMany({
+      where: { isPublished: true, category: { not: "featured" } },
+      orderBy: { createdAt: "desc" },
+      take: 3 - posts.length,
+    });
+    posts = [...posts, ...regular];
+  }
 
   if (posts.length === 0) return null;
 
