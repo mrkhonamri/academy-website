@@ -11,6 +11,12 @@ const quickLinks = [
   { label: "نظرسنجی", href: "/polls" },
 ];
 
+function normalizeUrl(url: string) {
+  if (!url) return "#";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return `https://${url}`;
+}
+
 async function getSettings() {
   const settings = await prisma.siteSetting.findMany();
   const map: Record<string, string> = {};
@@ -22,11 +28,11 @@ export default async function Footer() {
   const s = await getSettings();
 
   const socialLinks = [
-    { label: "اینستاگرام", href: s.footer_instagram || "" },
-    { label: "تلگرام", href: s.footer_telegram || "" },
-    { label: "واتساپ", href: s.footer_whatsapp || "" },
-    { label: "آپارات", href: s.footer_aparat || "" },
-  ].filter((l) => l.href);
+    { label: "اینستاگرام", href: normalizeUrl(s.footer_instagram || "") },
+    { label: "تلگرام", href: normalizeUrl(s.footer_telegram || "") },
+    { label: "واتساپ", href: normalizeUrl(s.footer_whatsapp || "") },
+    { label: "آپارات", href: normalizeUrl(s.footer_aparat || "") },
+  ].filter((l) => l.href && l.href !== "#");
 
   return (
     <footer className="bg-slate-900 text-slate-300">
@@ -93,7 +99,7 @@ export default async function Footer() {
                 <h3 className="mt-6 mb-3 text-sm font-bold text-white">شبکه‌های اجتماعی</h3>
                 <div className="flex gap-2">
                   {socialLinks.map((social) => (
-                    <a key={social.label} href={social.href} className="rounded-lg bg-slate-800 px-3 py-1.5 text-xs text-slate-400 hover:bg-slate-700 hover:text-amber-400 transition-colors">{social.label}</a>
+                    <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-slate-800 px-3 py-1.5 text-xs text-slate-400 hover:bg-slate-700 hover:text-amber-400 transition-colors">{social.label}</a>
                   ))}
                 </div>
               </>
